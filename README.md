@@ -1,6 +1,8 @@
 # Koji Music Bot for Discord
 
-![Koji Logo](https://cdn.discordapp.com/avatars/1104883303418445824/363e2ed1f8b34e810d6b67b4a194db67.png) <!-- Replace with your bot's logo -->
+<p align="center">
+  <img width="200" height="200" src="https://cdn.discordapp.com/avatars/1104883303418445824/363e2ed1f8b34e810d6b67b4a194db67.png?size=2048">
+</p>
 
 ## Introduction
 
