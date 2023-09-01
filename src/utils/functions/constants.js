@@ -1,6 +1,6 @@
 export const Colors = {
-  ERROR: '#F04350',
-  SUCCESS: '#6CE2A5',
+  ERROR: '#E92C3A',
+  SUCCESS: '#55D491',
   INFO: 'Blue',
   WARNING: 'Yellow',
   NEUTRAL: 'White',
