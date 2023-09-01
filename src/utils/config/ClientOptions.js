@@ -23,15 +23,5 @@ export const clientOptions = {
         type: ActivityType.Listening
       }
     ]
-  },
-  sweepers: {
-    users: {
-      interval: 3600,
-      filter: (user) => !user.user.bot
-    },
-    messages: {
-      interval: 3600,
-      filter: (message) => !message.pinned && !message.deleted && !message.system && !message.author.bot
-    }
   }
 }
