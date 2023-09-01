@@ -6,7 +6,14 @@
 export function processQuery(query) {
   // Process the song query if needed
   // Return the processed query
-  if (query.includes('youtube.com') && query.includes('list=')) {
+  const youtubeDomains = [
+    'youtube.com',
+    'www.youtube.com',
+    'music.youtube.com',
+    'www.music.youtube.com'
+  ];
+
+  if (youtubeDomains.some(domain => query.includes(domain)) && query.includes('&list=')) {
     const queryParts = query.split('&si=');
     queryParts.pop();
     return queryParts.join('');
