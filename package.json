@@ -14,14 +14,14 @@
   "dependencies": {
     "@discord-player/extractor": "4.4.2-dev.1",
     "@discord-player/opus": "0.1.1",
-    "@distube/ytdl-core": "4.12.1",
     "colors": "1.4.0",
     "discord-player": "6.6.3-dev.0",
     "discord-voip": "0.1.2",
     "discord.js": "14.13.0",
     "dotenv": "16.3.1",
     "libsodium-wrappers": "0.7.11",
-    "mediaplex": "0.0.6"
+    "mediaplex": "0.0.6",
+    "play-dl": "1.9.6"
   },
   "devDependencies": {
     "eslint": "8.44.0",

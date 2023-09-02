@@ -12,10 +12,10 @@ export async function createQueuePagination(interaction, queue) {
   const queueSize = queue.tracks.toArray().length;
 
   const buttonBuilders = [
-    new ButtonBuilder().setCustomId("fast_previous_page").setLabel("home").setStyle(ButtonStyle.Secondary),
-    new ButtonBuilder().setCustomId("previous_page").setLabel("previous").setStyle(ButtonStyle.Secondary),
-    new ButtonBuilder().setCustomId("next_page").setLabel("next").setStyle(ButtonStyle.Secondary),
-    new ButtonBuilder().setCustomId("fast_next_page").setLabel("end").setStyle(ButtonStyle.Secondary)
+    new ButtonBuilder().setCustomId("fast_previous_page").setLabel("First").setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder().setCustomId("previous_page").setLabel("Previous").setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder().setCustomId("next_page").setLabel("Next").setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder().setCustomId("fast_next_page").setLabel("End").setStyle(ButtonStyle.Secondary)
   ];
 
   const actionRow = new ActionRowBuilder().addComponents(...buttonBuilders);

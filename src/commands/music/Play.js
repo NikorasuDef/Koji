@@ -76,7 +76,7 @@ export default {
     const song = options.getString('song');
     const query = processQuery(song);
 
-    const searchOptions = { requestedBy: interaction.user };
+    const searchOptions = { requestedBy: interaction.user, limit: 1 };
     const searchResult = await client.player.search(query, searchOptions);
 
     if (!searchResult || !searchResult.tracks.length) {
@@ -88,25 +88,29 @@ export default {
 
     const isPlaylist = searchResult.hasPlaylist();
 
-    if (isPlaylist) {
-      for (const track of searchResult.playlist.tracks) {
-        queue.addTrack(track);
+    try {
+      if (isPlaylist) {
+        for (const track of searchResult.playlist.tracks) {
+          queue.addTrack(track);
+        }
       }
+  
+      queue.addTrack(searchResult.tracks[0]);
+  
+      if (!queue.isPlaying()) {
+        await queue.node.play();
+      }
+  
+      const resultMessage = isPlaylist
+        ? `Queued **${searchResult.tracks.length}** songs from playlist **[${searchResult.playlist.title}](${searchResult.playlist.url})**`
+        : `Queued **[${searchResult.tracks[0].title}](${searchResult.tracks[0].url})** by **${searchResult.tracks[0].author}**`;
+  
+      await interaction.editReply({
+        embeds: [createEmbed(Colors.SUCCESS, `${Emojis.SUCCESS} ${resultMessage}`)],
+      });
+    } catch (error) {
+      console.error(error.message)
     }
-
-    queue.addTrack(searchResult.tracks[0]);
-
-    if (!queue.isPlaying()) {
-      await queue.node.play();
-    }
-
-    const resultMessage = isPlaylist
-      ? `Queued **${searchResult.tracks.length}** songs from playlist **[${searchResult.playlist.title}](${searchResult.playlist.url})**`
-      : `Queued **[${searchResult.tracks[0].title}](${searchResult.tracks[0].url})** by **${searchResult.tracks[0].author}**`;
-
-    await interaction.editReply({
-      embeds: [createEmbed(Colors.SUCCESS, `${Emojis.SUCCESS} ${resultMessage}`)],
-    });
   },
 };
 
