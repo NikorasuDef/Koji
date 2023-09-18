@@ -58,12 +58,12 @@ export default {
       skipOnNoStream: true,
     } as GuildNodeCreateOptions;
 
-    await interaction.deferReply();
-
     const player = useMainPlayer();
     const query = processQuery(interaction.options.getString("query"));
     const queue = player.nodes.resolve(interaction.guild) || player.nodes.create(interaction.guild, queueOptions);
 
+    await interaction.deferReply();
+    
     const searchResult = await player.search(query, {
       requestedBy: interaction.user,
     });

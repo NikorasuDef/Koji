@@ -6,6 +6,10 @@ import { REST, Routes } from "discord.js";
 import path from "node:path";
 import fs from "node:fs";
 
+/**
+ * Registers all slash commands in the commands folder
+ * @param client - Discord Client
+ */
 export async function registerCommands(client: BaseClient): Promise<void> {
   try {
     const commands = [];

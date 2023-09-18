@@ -24,6 +24,15 @@ export class BasePlayer extends Player {
   }
 
   /**
+   * Whether or not the stream is currently paused.
+   * @param id - The guild id
+   * @returns Boolean if the queue is paused or not
+   */
+  public paused(id: string): boolean {
+    return this.queues.get(id).node.isPaused();
+  }
+
+  /**
    * Get the loop mode of the queue
    * @param queue - The queue to get the loop mode from
    */

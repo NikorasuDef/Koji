@@ -2,6 +2,10 @@ import { BaseClient } from "../../structures/Client.js";
 import path from "node:path";
 import fs from "node:fs";
 
+/**
+ * Registers all discord events in the events folder
+ * @param client - Discord Client
+ */
 export async function registerDiscordEvents(client: BaseClient): Promise<void> {
   // Load all events from the events folder
   const discordEventsFolderPath = path.resolve("./dist/listeners/discord");

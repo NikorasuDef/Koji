@@ -1,4 +1,4 @@
-import { ButtonBuilder, ChatInputCommandInteraction, ButtonStyle, ActionRowBuilder, EmbedBuilder, ActionRowData, ActionRowComponentData, APIActionRowComponent, APIMessageActionRowComponent, ComponentType } from "discord.js";
+import { ButtonBuilder, ChatInputCommandInteraction, ButtonStyle, ActionRowBuilder, EmbedBuilder, ActionRowData, ActionRowComponentData, APIActionRowComponent, APIMessageActionRowComponent, ComponentType, ButtonInteraction } from "discord.js";
 import { GuildQueue } from "discord-player";
 
 /**
@@ -25,24 +25,98 @@ export async function createEmbedPagination(interaction: ChatInputCommandInterac
   let currentPage = 0;
   
   const embedDescription = [
-    `**Now Playing:**\n[${queue.currentTrack.title}](${queue.currentTrack.url})\n\n`,
+    `**Now Playing:**\n\`${queue.currentTrack.duration}\` | [${queue.currentTrack.title}](${queue.currentTrack.url})\n\n`,
     `**Up Next:**\n${getTracksMap(queue, currentPage, tracksToDisplay)}`,
   ];
 
   const responseEmbed = new EmbedBuilder()
     .setColor("#69B0BF")
-    .setTitle(`Queue for ${interaction.guild.name}`)
     .setDescription(embedDescription.join(""))
     .setFooter({
-      text: `Page ${currentPage + 1} of ${Math.ceil(
-        queueSize / tracksToDisplay
-      )}`,
+      text: `Page ${currentPage + 1} of ${Math.ceil(queueSize / tracksToDisplay)}`,
     });
   
   const response = await interaction.reply({
     embeds: [responseEmbed],
     components: [actionRow],
+    fetchReply: true
   });
+
+  const filter = (button: ButtonInteraction) => button.user.id === interaction.user.id;
+  const collector = response.createMessageComponentCollector({ filter, time: 60000 });
+
+  collector.on("collect", async (button: ButtonInteraction) => {
+    collector.resetTimer();
+
+    if (button.customId === 'fast_previous_page') {
+      if (currentPage === 0) { 
+        await button.reply({
+          content: "You are already on the first page.",
+          ephemeral: true,
+        });
+        return;
+      }
+      currentPage = 0;
+    } else if (button.customId === 'previous_page') {
+
+      if (currentPage === 0) { 
+        await button.reply({
+          content: "You are already on the first page.",
+          ephemeral: true,
+        });
+        return;
+      }
+
+      currentPage = Math.max(currentPage - 1, 0);
+    } else if (button.customId === 'next_page') {
+
+      if (currentPage === Math.ceil(queueSize / tracksToDisplay) - 1) {
+        await button.reply({
+          content: "You are already on the last page.",
+          ephemeral: true,
+        });
+        return;
+      }
+
+      currentPage = Math.min(currentPage + 1, Math.ceil(queueSize / tracksToDisplay) - 1);
+      
+    } else if (button.customId === 'fast_next_page') {
+
+      if (currentPage === Math.ceil(queueSize / tracksToDisplay) - 1) {
+        await button.reply({
+          content: "You are already on the last page.",
+          ephemeral: true
+        });
+        return;
+      }
+
+      currentPage = Math.ceil(queueSize / tracksToDisplay) - 1;
+    }
+
+    const newEmbedDescription = [
+      `**Now Playing:**\n\`${queue.currentTrack.duration}\` | [${queue.currentTrack.title}](${queue.currentTrack.url})\n\n`,
+      `**Up Next:**\n${getTracksMap(queue, currentPage, tracksToDisplay)}`,
+    ];
+
+    responseEmbed.setDescription(newEmbedDescription.join(""));
+    responseEmbed.setFooter({ text: `Page ${currentPage + 1} of ${Math.ceil(queueSize / tracksToDisplay)}` });
+    
+    buttonsBuilders[0].setDisabled(currentPage === 0);
+    buttonsBuilders[1].setDisabled(currentPage === 0);
+    buttonsBuilders[2].setDisabled(currentPage === Math.ceil(queueSize / tracksToDisplay) - 1);
+    buttonsBuilders[3].setDisabled(currentPage === Math.ceil(queueSize / tracksToDisplay) - 1);
+
+    await button.update({
+      embeds: [responseEmbed],
+      components: [actionRow]
+    }).catch(() => { });
+  });
+
+  collector.on('end', async () => {
+    await response.edit({
+      components: []
+    }).catch(() => { })
+  })
 }
 
 /**
@@ -56,11 +130,11 @@ function getTracksMap(queue: GuildQueue, currentPage: number, tracksToDisplay: n
   const tracks = queue.tracks
     .toArray()
     .slice(start, start + tracksToDisplay)
-    .map((t, index) => `**${start + index + 1}.** [${t.title}](${t.url})`)
+    .map((t, index) => `**${start + index + 1}.** \`${t.duration}\` | [${t.title}](${t.url})`)
     .join("\n");
 
   return (
     tracks ||
-    "There are no tracks to display. Add some tracks to the queue using the </play:1148316823503261809> command."
+    "There are no tracks to display. Add some tracks to the queue using the </play:1148889137269706803> command."
   );
 }

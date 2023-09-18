@@ -5,8 +5,10 @@
   "main": "./dist/index.js",
   "exports": "./dist/index.js",
   "type": "module",
+  "homepage": "https://github.com/aarons124/Koji#readme",
+  "license": "Apache-2.0",
   "scripts": {
-    "start": "\"pnpm run build && node ./dist/index.js\"",
+    "start": "\"npm run build && node ./dist/index.js\"",
     "dev": "nodemon --config nodemon.json ./dist/index.js",
     "build": "tsc"
   },
@@ -14,26 +16,12 @@
     "type": "git",
     "url": "git+https://github.com/aarons124/Koji.git"
   },
-  "keywords": [
-    "discord",
-    "music-bot",
-    "discord-player"
-  ],
-  "author": "Aaron Sandoval",
-  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/aarons124/Koji/issues"
   },
-  "homepage": "https://github.com/aarons124/Koji#readme",
-  "engines": {
-    "node": ">=18.x",
-    "npm": ">=8.x"
-  },
-  "devDependencies": {
-    "@types/node": "20.5.9",
-    "nodemon": "3.0.1",
-    "ts-node": "10.9.1",
-    "typescript": "5.2.2"
+  "author": {
+    "name": "Aaron Sandoval",
+    "url": "https://github.com/aarons124"
   },
   "dependencies": {
     "@discord-player/extractor": "4.4.2",
@@ -44,6 +32,18 @@
     "dotenv": "16.3.1",
     "libsodium-wrappers": "0.7.11",
     "mediaplex": "0.0.6",
+    "mongoose": "7.5.2",
     "youtube-ext": "1.1.14"
+  },
+  "devDependencies": {
+    "@types/node": "20.5.9",
+    "eslint": "8.49.0",
+    "nodemon": "3.0.1",
+    "ts-node": "10.9.1",
+    "typescript": "5.2.2"
+  },
+  "engines": {
+    "node": ">=18.x",
+    "npm": ">=8.x"
   }
 }

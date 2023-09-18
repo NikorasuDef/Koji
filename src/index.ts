@@ -9,7 +9,7 @@ const client = new BaseClient();
 
 (async () => {
   await registerDiscordEvents(client);
-  await registerPlayerEvents();
+  await registerPlayerEvents(client);
   await registerCommands(client);
   await client.player.extractors.loadDefault();
   await client.login(process.env.DISCORD_TOKEN);

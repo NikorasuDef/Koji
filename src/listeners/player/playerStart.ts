@@ -1,5 +1,5 @@
-import { GuildQueue, Track, GuildQueueEvent } from "discord-player";
 import { EmbedBuilder, GuildTextBasedChannel, TextChannel } from "discord.js";
+import { GuildQueue, Track, GuildQueueEvent } from "discord-player";
 
 export default {
   name: GuildQueueEvent.playerStart,
@@ -16,7 +16,9 @@ export default {
     const nowPlayingEmbed = new EmbedBuilder()
       .setColor(queue.guild.members.me.displayHexColor)
       .setTitle("Now playing")
-      .setDescription(`[**${track.title}**](${track.url}) ~ ${track.requestedBy}`);
+      .setDescription(
+        `[**${track.title}**](${track.url}) ~ ${track.requestedBy}`
+      );
 
     try {
       await channel.send({ embeds: [nowPlayingEmbed] });

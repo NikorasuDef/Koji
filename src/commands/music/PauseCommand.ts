@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, GuildMember } from "discord.js";
 import { createEmbedResponse } from "../../utils/functions/CreateEmbedResponse.js";
+import { BaseClient } from "../../structures/Client.js";
 import { useMainPlayer } from "discord-player";
 
 export default {
@@ -9,8 +10,9 @@ export default {
 
   /**
    * @param interaction - Discord interaction
+   * @param client - The client
    */
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  async execute(interaction: ChatInputCommandInteraction, client: BaseClient): Promise<void> {
     const memberChannel = (interaction.member as GuildMember).voice.channel;
     const botChannel = interaction.guild.members.me.voice.channel;
 
@@ -44,7 +46,7 @@ export default {
       return;
     }
 
-    if (queue.node.isPaused()) {
+    if (client.player.paused(interaction.guildId!)) {
       await createEmbedResponse(
         interaction,
         "error",
